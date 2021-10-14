@@ -2,7 +2,7 @@
 ## Hardware Wallet Based Authentication
 
 SDS: Seed Derived Secret (never leaves HW)
-Method: "HWBA/<version>/<scheme>/<method>
+Method: "HWBA/\<version\>/\<scheme\>/\<method\>
 Account: "name@domain" (json content)
 H: SHA256
 
