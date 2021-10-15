@@ -26,6 +26,7 @@ The line of thought that led to the development of hardware wallets can be exten
 * Supporting primitives for bitcoin secp256k1 ECDSA, SHA256
 * Camera capable of reading QR codes.
 * Display capable of presenting QR codes.
+* Internal clock (for TOTP support)
 
 ## Protocol
 ### ECDHA secret sharing basics
