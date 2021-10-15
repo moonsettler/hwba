@@ -31,7 +31,8 @@ The line of thought that led to the development of hardware wallets can be exten
 
 ## Protocol
 ### ECDHA secret sharing basics
-SDS: Seed Derived Secret (never leaves HW) \
+GUID: binary form of "33771967-c51f-4e84-99e8-7541fd64e14b" \
+SDS: Seed Derived Secret HMAC-SHA512(GUID|Seed|Phrase) never leaves HW \
 Method: "HWBA/\<version\>/\<scheme\>/\<method\> \
 Account: "name@domain" (json content) \
 H: SHA256 \
@@ -45,7 +46,7 @@ QB public key of service
 ### Secret sharing with internet Service
 Device reads QR {"m":"HWBA/1/SSR","a":"anon@example.com","x":"678a...deb6","y":"49f6...1d5f"} \
 \
-Method := "HWBA/1/TOTP/R" \
+Method := "HWBA/1/SSR" \
 Account := "anon@example.com" \
 dA := H("anon@example.com"|"909a...8c4f") \
 QB := {x, y} \
@@ -79,3 +80,14 @@ SecretA := (dA x QB == dA x dB X G).x \
 Code := TOTP(SecretA, SHA1, 6, 30, t) \
 \
 Device displays 6 digit Code (updates every 30 seconds)
+
+### Generate password
+Too many options here would hinder the deterministic and simplicistic nature of this function, therefore password strenght and charset will be preset, if it is not suitable the 'Reveal password' function can be used
+1. User selects 'Generate password' function on the Device
+2. User inputs the Account (like "anon@example.com") identifier using Device keys (alternatively read it from QR code)
+3. Device generates a secret H(Iterator|Account|SDS) starting with 0 iterator 128 bit entropy (first 16 bytes) \
+example: <code>874e82085aff4e3fac714a5a0dc0a42a</code>
+4. Secret is displayed using base58 encoding and alphabet \
+example: <code>Hi5Y2qLo9RTP85wUzJSmH3</code>
+4. User may use navigation keys to iterate the password
+5. Selected iteration is displayed (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input)
