@@ -92,14 +92,12 @@ Too many options here would hinder the deterministic and simplicistic nature of 
 4. User may use navigation keys to iterate the password
 5. Selected iteration is displayed (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input) \
 	*example:* \
-	<code>
-		&nbsp;&nbsp;Hi5Y >
-		< 2qLo >
-		< 9RTP >
-		< 85wU >
-		< zJSm >
-		< H3
-	</code>
+	<code>&nbsp;&nbsp;Hi5Y ></code> \
+	<code>< 2qLo ></code> \
+	<code>< 9RTP ></code> \
+	<code>< 85wU ></code> \
+	<code>< zJSm ></code> \
+	<code>< H3&nbsp;&nbsp;&nbsp;&nbsp;</code>
 6. User is free to use only the first n character group of his password if weaker security and easier/faster input is desired. \
 	*example:* <code>Hi5Y2qLo</code> \
 	*Warning: Forgetting this information may lead to forced password reset, only use for non-critical services that can be recovered by other means!*
