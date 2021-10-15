@@ -31,58 +31,77 @@ The line of thought that led to the development of hardware wallets can be exten
 
 ## Protocol
 ### ECDHA secret sharing basics
-GUID: binary form of "33771967-c51f-4e84-99e8-7541fd64e14b" \
-SDS: Seed Derived Secret HMAC-SHA512(GUID|Seed|Phrase) never leaves HW \
-Method: "HWBA/\<version\>/\<scheme\>/\<method\> \
-Account: "name@domain" (json content) \
-H: SHA256 \
-\
-dA (private key) := H(Account|SDS) \
-QA := dA x G (secp256k1) \
-\
-dB private key of service \
-QB public key of service
+> GUID: binary form of "33771967-c51f-4e84-99e8-7541fd64e14b" \
+> SDS: Seed Derived Secret HMAC-SHA512(GUID|Seed|Phrase) never leaves HW \
+> Method: "HWBA/\<version\>/\<scheme\>/\<method\> \
+> Account: "name@domain" (json content) \
+> H: SHA256 \
+> \
+> dA (private key) := H(Account|SDS) \
+> QA := dA x G (secp256k1) \
+> \
+> dB private key of service \
+> QB public key of service
 
 ### Secret sharing with internet Service
-Device reads QR {"m":"HWBA/1/SSR","a":"anon@example.com","x":"678a...deb6","y":"49f6...1d5f"} \
-\
-Method := "HWBA/1/SSR" \
-Account := "anon@example.com" \
-dA := H("anon@example.com"|"909a...8c4f") \
-QB := {x, y} \
-SecretA := (dA x QB == dA x dB X G).x \
-\
-Device displays QR {"m":"HWBA/1/SSA","x":"fdb0...1f61","y":"bc3f...6bf1"} \
-QA := {x, y} \
-SecretB := (dB x QA == dB x dA x G).x
+> Device reads QR {"m":"HWBA/1/SSR","a":"anon@example.com","x":"678a...deb6","y":"49f6...1d5f"} \
+> \
+> Method := "HWBA/1/SSR" \
+> Account := "anon@example.com" \
+> dA := H("anon@example.com"|"909a...8c4f") \
+> QB := {x, y} \
+> SecretA := (dA x QB == dA x dB X G).x \
+> \
+> Device displays QR {"m":"HWBA/1/SSA","x":"fdb0...1f61","y":"bc3f...6bf1"} \
+> QA := {x, y} \
+> SecretB := (dB x QA == dB x dA x G).x
 
-### Register 2FA (RFC 6238)
+### Register 2FA (RFC 4226/6238)
 1. Service initiates secret sharing, displays SSR QR code
 2. Device completes secret sharing, displays SSA QR code
 3. Service and Device have a shared account specific secret
-4. Service Requests confirmation PIN to complete setup, displays TOTP/A QR code
-5. Device reads TOTP/A, generates and displays PIN
+4. Service Requests confirmation PIN to complete setup, displays xOTP/A QR code
+5. Device reads xOTP/A, generates and displays PIN
 6. User enters PIN Service finalizes registration of 2FA Device
 
-### Authenticate / Request 2FA Code (RFC 6238)
-Device reads QR {"m":"HWBA/1/TOTP/A","a":"anon@example.com","x":"678a...deb6","y":"49f6...1d5f"} \
-Parameters (default): "p":{"a":"SHA256","d":6,"p":30} \
-&nbsp;&nbsp;&nbsp;&nbsp;Algorithm: SHA256 (default), SHA512 (for future use) \
-&nbsp;&nbsp;&nbsp;&nbsp;Digits: 6 (default), 8 \
-&nbsp;&nbsp;&nbsp;&nbsp;Period:	30 (default) seconds \
-\
-Method := "HWBA/1/TOTP/A" \
-Account := "anon@example.com" \
-dA := H("anon@example.com"|"909a...8c4f") \
-QB := {x, y} \
-SecretA := (dA x QB == dA x dB X G).x \
-\
-Code := TOTP(SecretA, SHA256, d, p, t) \
-\
-Device displays 6 digit Code (updates every 30 seconds)
+### Authenticate / Request HMAC 2FA Code (RFC 4226)
+> Device reads QR {"m":"HWBA/1/HOTP/A","a":"anon@example.com","i":"0","x":"678a...deb6","y":"49f6...1d5f"} \
+> Parameters (default): "p":{"a":"SHA256","d":6} \
+> &nbsp;&nbsp;&nbsp;&nbsp;Algorithm: SHA256 (default), SHA512 (for future use) \
+> &nbsp;&nbsp;&nbsp;&nbsp;Digits: 6 (default), 8
+> \
+> Method := "HWBA/1/HOTP/A" \
+> Account := "anon@example.com" \
+> dA := H("anon@example.com"|"909a...8c4f") \
+> i := 0 \
+> QB := {x, y} \
+> SecretA := (dA x QB == dA x dB X G).x \
+> \
+> Code := HOTP(SecretA, SHA256, d, i) \
+> \
+> Device displays 6 digit Code (updates every 30 seconds)
+
+*Warning: very important that the server increments this iterator after every successful authentication, and does not rely on the value presented by the client (like html hidden fields).*
+
+### Authenticate / Request Time-based 2FA Code (RFC 6238)
+> Device reads QR {"m":"HWBA/1/TOTP/A","a":"anon@example.com","x":"678a...deb6","y":"49f6...1d5f"} \
+> Parameters (default): "p":{"a":"SHA256","d":6,"p":30} \
+> &nbsp;&nbsp;&nbsp;&nbsp;Algorithm: SHA256 (default), SHA512 (for future use) \
+> &nbsp;&nbsp;&nbsp;&nbsp;Digits: 6 (default), 8 \
+> &nbsp;&nbsp;&nbsp;&nbsp;Period:	30 (default) seconds \
+> \
+> Method := "HWBA/1/TOTP/A" \
+> Account := "anon@example.com" \
+> dA := H("anon@example.com"|"909a...8c4f") \
+> QB := {x, y} \
+> SecretA := (dA x QB == dA x dB X G).x \
+> \
+> Code := TOTP(SecretA, SHA256, d, p, t) \
+> \
+> Device displays 6 digit Code (updates every 30 seconds)
 
 ### Generate password
-Too many options here would hinder the deterministic and simplicistic nature of this function, therefore password strenght and charset will be preset, if it is not suitable the 'Reveal password' function can be used
+Too many options here would hinder the deterministic and simple nature of this function, therefore password strenght and charset will be preset, if it is not suitable the 'Reveal password' function can be used
 1. User selects 'Generate password' function on the Device
 2. User inputs the Account (like "anon@example.com") identifier using Device keys (alternatively read it from QR code)
 3. Device generates a secret H(Iterator|Account|SDS) starting with 0 iterator 128 bit entropy (first 16 bytes) \
