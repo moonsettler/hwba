@@ -86,8 +86,20 @@ Too many options here would hinder the deterministic and simplicistic nature of 
 1. User selects 'Generate password' function on the Device
 2. User inputs the Account (like "anon@example.com") identifier using Device keys (alternatively read it from QR code)
 3. Device generates a secret H(Iterator|Account|SDS) starting with 0 iterator 128 bit entropy (first 16 bytes) \
-example: <code>874e82085aff4e3fac714a5a0dc0a42a</code>
+	*example:* <code>874e82085aff4e3fac714a5a0dc0a42a</code>
 4. Secret is displayed using base58 encoding and alphabet \
-example: <code>Hi5Y2qLo9RTP85wUzJSmH3</code>
+	*example:* <code>Hi5Y2qLo9RTP85wUzJSmH3</code>
 4. User may use navigation keys to iterate the password
-5. Selected iteration is displayed (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input)
+5. Selected iteration is displayed (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input) \
+	*example:* \
+	<code>
+		&nbsp;&nbsp;Hi5Y > \
+		< 2qLo > \
+		< 9RTP > \
+		< 85wU > \
+		< zJSm > \
+		< H3
+	</code>
+6. User is free to use only the first n character group of his password if weaker security and easier/faster input is desired. \
+	*example:* <code>Hi5Y2qLo</code> \
+	*Warning: Forgetting this information may lead to forced password reset, only use for non-critical services that can be recovered by other means!*
