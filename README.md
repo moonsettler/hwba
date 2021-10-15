@@ -93,11 +93,11 @@ Too many options here would hinder the deterministic and simplicistic nature of 
 5. Selected iteration is displayed (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input) \
 	*example:* \
 	<code>
-		&nbsp;&nbsp;Hi5Y > \
-		< 2qLo > \
-		< 9RTP > \
-		< 85wU > \
-		< zJSm > \
+		&nbsp;&nbsp;Hi5Y >
+		< 2qLo >
+		< 9RTP >
+		< 85wU >
+		< zJSm >
 		< H3
 	</code>
 6. User is free to use only the first n character group of his password if weaker security and easier/faster input is desired. \
