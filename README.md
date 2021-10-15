@@ -5,7 +5,7 @@ Describes proposed methods for using hardware wallets (secure, 'air-gapped' devi
 
 ## Motivation
 
-The line of thought that led to the development of hardware wallets can be extended to all parts of ones digital life and security. Securely managing keys and passwords and other secrets is a daunting task, various password managers revel the critical secrets in plain text at one point or an other. Same is true for some popular 2FA solutions where a shared secret is exposed as plain text upon registration.
+The line of thought that led to the development of hardware wallets can be extended to all parts of ones digital life and security. Securely managing keys and passwords and other secrets is a daunting task, various password managers reveal the critical secrets in plain text at one point or an other. Same is true for some popular 2FA solutions where a shared secret is exposed as plain text upon registration.
 
 ## Concept
 
@@ -20,6 +20,7 @@ The line of thought that led to the development of hardware wallets can be exten
 * Provide 2FA with RFC 6238 Time-based One-Time Passwords!
 * Provide crpytographically secure non-replayable authentication via secp256k1 ECDSA!
 * Provide a method to decrypt and display passwords (for legacy systems)!
+* Provide deterministic secure password generator functionality (for legacy systems)!
 
 ## Requirements for the hardware wallet
 
