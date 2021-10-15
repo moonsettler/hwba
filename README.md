@@ -1,7 +1,7 @@
 # HWBA
 ## Hardware Wallet Based Authentication
 
-Describes proposed methods for using hardware wallets to manage critical secrets used for authentication.
+Describes proposed methods for using hardware wallets (secure, 'air-gapped' device) to manage critical secrets used for authentication.
 
 ## Motivation
 
@@ -10,7 +10,7 @@ The line of thought that led to the development of hardware wallets can be exten
 ## Concept
 
 * Only reveal secrets in plain text on the display of the hardware wallet!
-* Always encrypt communication with unsecured device!
+* Cryptograhically secure communication of critical secrets via unsecured device!
 * Use the seed+passphrase as the root and single point of failure of secret management!
 * Use the cryptographic primitives of the bitcoin protocol already present in the hardware wallets as much as possible!
 * Do not complicate the recovery protocols for hardware wallets with any additional data they must store!
@@ -23,7 +23,7 @@ The line of thought that led to the development of hardware wallets can be exten
 
 ## Requirements for the hardware wallet
 
-* Supporting primitives for bitcoin secp256k1 ECDSA, SHA256
+* Supporting primitives for bitcoin secp256k1 ECDSA, SHA256, HMAC-SHA512
 * Camera capable of reading QR codes.
 * Display capable of presenting QR codes.
 * Internal clock (for TOTP support)
