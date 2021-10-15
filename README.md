@@ -79,7 +79,7 @@ The line of thought that led to the development of hardware wallets can be exten
 > \
 > Code := HOTP(SecretA, SHA256, d, i) \
 > \
-> Device displays 6 digit Code (updates every 30 seconds)
+> Device displays 6 digit Code
 
 *Warning: very important that the server increments this iterator after every successful authentication, and does not rely on the value presented by the client (like html hidden fields).*
 
