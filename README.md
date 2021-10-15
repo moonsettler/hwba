@@ -77,7 +77,7 @@ dA := H("anon@example.com"|"909a...8c4f") \
 QB := {x, y} \
 SecretA := (dA x QB == dA x dB X G).x \
 \
-Code := TOTP(SecretA, SHA1, 6, 30, t) \
+Code := TOTP(SecretA, SHA256, d, p, t) \
 \
 Device displays 6 digit Code (updates every 30 seconds)
 
