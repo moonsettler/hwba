@@ -29,6 +29,10 @@ The line of thought that led to the development of hardware wallets can be exten
 * Display capable of presenting QR codes.
 * Internal clock (for TOTP support)
 
+## Limitations
+
+No form of secure authentication can theoretically protect against a sophisticated man-in-the-middle session hijack attack on a compromised device. HWBA is most useful on a potentially compromised device where either a keylogger or other more sophisticated but unattended mass targeted spyware/malware specifically aimed at collecting secrets, keys and credentials is running. HWBA will not guarantee any protection in case of active hostile survailance and remote control. Services should nevertheless ensure repeat authentication or 2FA challenge at every action where serious harm, loss of data or loss of funds can result from executing it.
+
 ## Protocol
 ### ECDHA secret sharing basics
 > GUID: binary form of "33771967-c51f-4e84-99e8-7541fd64e14b" \
@@ -81,7 +85,7 @@ The line of thought that led to the development of hardware wallets can be exten
 > \
 > Device displays 6 digit Code
 
-*Warning: very important that the server increments this iterator after every successful authentication, and does not rely on the value presented by the client (like html hidden fields).*
+*Warning: very important that the server increments this iterator after every authentication attempt, and does not rely on the value presented by the client (like html hidden fields).*
 
 ### Authenticate / Request Time-based 2FA Code (RFC 6238)
 > Device reads QR {"m":"HWBA/1/TOTP/A","a":"anon@example.com","x":"678a...deb6","y":"49f6...1d5f"} \
@@ -99,6 +103,10 @@ The line of thought that led to the development of hardware wallets can be exten
 > Code := TOTP(SecretA, SHA256, d, p, t) \
 > \
 > Device displays 6 digit Code (updates every 30 seconds)
+
+### HOTP vs TOTP
+
+Generally HOTP should be preferred when the login process can easily display a generated HOTP/A QR code. The main advantage of TOTP is, it can be used with a 'static' QR code that can even be printed out as part of the 2FA registration process or even stored on the Device if capabilities permit. The main disadvantage of TOTP is, it's theoretically replayable in a tight time interval, and also requires a synced internal clock. Service must make sure it will not accept 2 authentications with the same code, and should also limit the number of bad attempts considering the small entropy of the PINs. HOTP is more straightforward after every attempt the iterator should be increased and a new challenge QR code generated.
 
 ### Generate password
 Too many options here would hinder the deterministic and simple nature of this function, therefore password strenght and charset will be preset, if it is not suitable the 'Reveal password' function can be used
