@@ -108,8 +108,21 @@ No form of secure authentication can theoretically protect against a sophisticat
 
 Generally HOTP should be preferred when the login process can easily display a generated HOTP/A QR code. The main advantage of TOTP is, it can be used with a 'static' QR code that can even be printed out as part of the 2FA registration process or even stored on the Device if capabilities permit. The main disadvantage of TOTP is, it's theoretically replayable in a tight time interval, and also requires a synced internal clock. Service must make sure it will not accept 2 authentications with the same code, and should also limit the number of bad attempts considering the small entropy of the PINs. HOTP is more straightforward after every attempt the iterator should be increased and a new challenge QR code generated.
 
+### Display password
+
+1. User reads HWBA/1/PASS QR code with device (from screen or paper)
+2. Device creates a symmetric decryption key from Account and SDS using i iterations SHA512-HMAC, uses the key to decrypt the encrypted password
+3. Device displays password in plain text (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input) \
+	*example:* \
+	<code>&nbsp;&nbsp;MySu ></code> \
+	<code>< perS ></code> \
+	<code>< ecre ></code> \
+	<code>< tPa5 ></code> \
+	<code>< sPhr ></code> \
+	<code>< as3+&nbsp;&nbsp;</code>
+
 ### Generate password
-Too many options here would hinder the deterministic and simple nature of this function, therefore password strenght and charset will be preset, if it is not suitable the 'Reveal password' function can be used
+Too many options here would hinder the deterministic and simple nature of this function, therefore password strenght and charset will be preset, if it is not suitable the 'Display password' function can be used
 1. User selects 'Generate password' function on the Device
 2. User inputs the Account (like "anon@example.com") identifier using Device keys (alternatively read it from QR code)
 3. Device generates a secret H(Iterator|Account|SDS) starting with 0 iterator 128 bit entropy (first 16 bytes) \
