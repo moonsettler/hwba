@@ -110,10 +110,11 @@ Generally HOTP should be preferred when the login process can easily display a g
 
 ### Display password
 
-1. User reads HWBA/1/PASS QR code with device (from screen or paper)
-2. Device creates a symmetric decryption key from Account and SDS using i iterations SHA512-HMAC, uses the key to decrypt the encrypted password
+1. User reads HWBA/1/PASS QR code with Device (from screen or paper)
+2. Device creates a symmetric decryption Key from Account and SDS using i iterations of SHA512-HMAC, uses the Key to decrypt the encrypted password with a XOR cipher. Passphrase is encoded as ASCII/UTF-8 and is a 64 byte 0 terminated and padded string. \
+*Note: 512 bit means a maximum of 64 ascii symbols or 32 extended latin or chinese symbols. Encrypted size is uniform 48 bytes base64 ecoded.*
 3. Device displays password in plain text (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input) \
-	*example:* \
+	*Example:* \
 	<code>&nbsp;&nbsp;MySu ></code> \
 	<code>< perS ></code> \
 	<code>< ecre ></code> \
@@ -126,12 +127,12 @@ Too many options here would hinder the deterministic and simple nature of this f
 1. User selects 'Generate password' function on the Device
 2. User inputs the Account (like "anon@example.com") identifier using Device keys (alternatively read it from QR code)
 3. Device generates a secret H(Iterator|Account|SDS) starting with 0 iterator 128 bit entropy (first 16 bytes) \
-	*example:* <code>874e82085aff4e3fac714a5a0dc0a42a</code>
+	*Example:* <code>874e82085aff4e3fac714a5a0dc0a42a</code>
 4. Secret is displayed using base58 encoding and alphabet \
-	*example:* <code>Hi5Y2qLo9RTP85wUzJSmH3</code>
+	*Example:* <code>Hi5Y2qLo9RTP85wUzJSmH3</code>
 4. User may use navigation keys to iterate the password
 5. Selected iteration is displayed (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input) \
-	*example:* \
+	*Example:* \
 	<code>&nbsp;&nbsp;Hi5Y ></code> \
 	<code>< 2qLo ></code> \
 	<code>< 9RTP ></code> \
@@ -139,5 +140,5 @@ Too many options here would hinder the deterministic and simple nature of this f
 	<code>< zJSm ></code> \
 	<code>< H3&nbsp;&nbsp;&nbsp;&nbsp;</code>
 6. User is free to use only the first n character group of his password if weaker security and easier/faster input is desired. \
-	*example:* <code>Hi5Y2qLo</code> \
+	*Example:* <code>Hi5Y2qLo</code> \
 	*Warning: Forgetting this information may lead to forced password reset, only use for non-critical services that can be recovered by other means!*
