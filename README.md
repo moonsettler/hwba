@@ -112,7 +112,8 @@ Generally HOTP should be preferred when the login process can easily display a g
 
 1. User reads HWBA/1/PASS QR code with Device (from screen or paper)
 2. Device creates a symmetric decryption Key from Account and SDS using i iterations of SHA512-HMAC, uses the Key to decrypt the encrypted password with a XOR cipher. Passphrase is encoded as ASCII/UTF-8 and is a 64 byte 0 terminated and padded string. \
-*Note: 512 bit means a maximum of 64 ascii symbols or 32 extended latin or chinese symbols. Encrypted size is uniform 48 bytes base64 ecoded.*
+*Example:* <code>MySuperSecretPa5sPhras3+</code> \
+*Note: 512 bit means a maximum of 64 ASCII symbols or 32 extended latin or chinese symbols. Encrypted size is uniform 48 characters base64 ecoded.*
 3. Device displays password in plain text (display may only reveal a small part of the password at once, not just for security reasons, but also to help manual input) \
 	*Example:* \
 	<code>&nbsp;&nbsp;MySu ></code> \
